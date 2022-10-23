@@ -1,0 +1,47 @@
+
+.containerdata{
+  height: 250px;
+  
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  
+  justify-content: space-around;
+  padding: 10% 0 0 0;
+  margin: 0; 
+}
+#day, #date{
+  text-align: center; 
+  box-sizing: border-box;
+  height: 250px;
+  width: 230px;
+  border-radius: 10%;
+  border: 10px solid #93701f;
+  box-shadow: 
+   2px 2px 2px #93701f,
+   -2px 2px 2px #93701f,
+   -2px -2px 2px #93701f,
+   2px -2px 2px #93701f
+   ;
+   margin-top: 5%; 
+}
+
+#date{  
+  padding-top: 40px;
+  background: #ead999;
+  font-size: 30px;
+  font-weight: 900; 
+}
+#date span{  
+  display: block;
+  font-family: 'Raleway';
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 45px;
+  padding-bottom: 15px;
+}

@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+
+<!-- NAVBAR -->
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-md-center"
+        id="navbarCollapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation" onclick="rolar('#curso')">Sobre
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation" onclick="rolar('#inscricoes')">Inscrições
+            </button>
+          </li>
+          {% if textos %}
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation" onclick="rolar('#material')">Material
+              Bibliográfico
+            </button>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="window.location='{% url 'index' %}'">Voltar
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main role="main">
+  {% if cursos %}
+    {% for curso in cursos %}
+      <div class="jumbotron" style="background-color: #fff; margin-top:50px" id="curso">
+        <div class="container">
+          <p class="sub2" style="text-align:center;">{{ curso.nome }}</p><br /><br />
+          <p style="text-align:center;"><img class="imgEspetaculo" src='{{ curso.foto_principal.url }}' /></p>
+          <br /><br /><p class="text4">Descrição</p><br />
+          <p class="text2"> <br /><b>({{ curso.get_modalidade_display }}) </b>{{ curso.descricao }}</p>
+          {% if programa %}
+            <br /><br /><p class="text4">Conteúdo Programático</p><br />
+            {% for conteudo in programa %}
+              {% if conteudo.curso.id == curso.id %}
+                <p class="text2"><text class="text5">{{ conteudo.titulo }}: </text>{{ conteudo.conteudo }}</p>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          <br /><br /><p class="text4">Calendário do curso</p><br />
+          <p><text class="text5">Inscrições: </text><text class="text2">De {{ curso.data_inscricao_inicial }} a {{ curso.data_inscricao_final }}</text></p>
+          <p><text class="text5">Programação: </text><text class="text2">{{ curso.programacao }}</text></p>
+          <p><text class="text5">Local: </text><text class="text2">{{ curso.local }}</text></p>
+          <p class="text2"><i>{{ curso.observacoes }}</i></p>
+        </div>
+      </div>
+      
+      <div class="jumbotron" style="background-color: #000;" id="inscricoes">
+        <div class="container">
+          <p class="sub">INSCRIÇÕES</p><br /><br />
+          <p class="text1"><text class="text3">
+            {% now "Y-m-d" as todays_date %}
+              {% if todays_date > curso.data_inscricao_final|date:"Y-m-d" %}
+                Inscrições encerradas!
+              {% else %}
+                {% if todays_date < curso.data_inscricao_inicial|date:"Y-m-d" %}
+                  Inscrições em {{ curso.data_inscricao_inicial }}
+                {% else %}
+                  <a href='https://docs.google.com/forms/d/e/1FAIpQLSdmjXGpG2O2Ha7rdh2ID1DiQPo7xahlQfVKca3dk86gSvyUDw/viewform?vc=0&c=0&w=1&flr=0&fbclid=IwAR2DpvxN2AMkjf4cf9R2EQiPAGvywbq6rwJJQxnQgBZTopI6pKYYXs4IrOw'
+                style='color:inherit;'>Faça sua inscrição clicando aqui.</a>
+                {% endif %}
+              {% endif %}
+                
+              
+              </text></p>
+        </div>
+      </div>
+      <div class="jumbotron" style="background-color: #fff;" id="material">
+        <div class="container">
+          {% if textos %}
+          <p class="sub2">MATERIAL BIBLIOGRÁFICO</p><br /><br />
+          {% for texto in textos %}
+          <div class='row'>
+            <div class='col-12 col-md-8'>
+              <p class='text2' style='font-weight: bold;'>
+                {{ texto.nome }}
+              </p>
+              {% if texto.autor %}
+                <p class='text2'>de {{ texto.autor }}</p>
+              {% endif %}
+              {% if texto.resumo %}
+                <p class='text2'>Resumo: {{ texto.resumo }}</p>
+              {% endif %}
+            </div>
+            <div class='col-12 col-md'>
+              <br /><br />
+              <a href='{{ texto.arquivo.url }}' download='{{ texto.nome }}.pdf'>
+                <img class='imgRedonda' src='{% static "img/pdf.png" %}'>              
+              </a><br /><br /><br /><br />
+            </div>
+          </div>
+          <br /><br />
+          {% endfor %}
+          
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
+</main>
+{% endblock %}

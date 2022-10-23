@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+{% include "partials/_navbar.html" %}
+<main role="main">
+{% include "partials/_top_page.html" %}
+{% include "partials/_sobre.html" %}
+{% include "partials/_curriculo.html" with load_curriculo=load_curriculo load_premios=load_premios %}
+{% include "partials/_integrantes.html" with integrantes=integrantes %}
+{% include "partials/_agenda.html" with agenda_futura=agenda_futura agenda_passada=agenda_passada %}
+{% include "partials/_espetaculos.html" with espetaculos=espetaculos %}
+</main>
+{% endblock %}

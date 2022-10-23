@@ -1,0 +1,327 @@
+@media (min-width: 992px) {
+  .animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform:translateY(0rem);
+    opacity: 1;
+  }
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes slideIn {
+  0% {
+    -webkit-transform: transform;
+    -webkit-opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    -webkit-opacity: 1;
+  }
+  0% {
+    -webkit-transform: translateY(1rem);
+    -webkit-opacity: 0;
+  }
+}
+
+.slideIn {
+  -webkit-animation-name: slideIn;
+  animation-name: slideIn;
+}
+
+/* Other styles for the page not related to the animated dropdown */
+
+
+.container {
+  max-width: 960px;
+}
+
+/*
+ * Custom translucent site header
+ */
+
+.site-header {
+  background-color: rgba(0, 0, 0, .85);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
+.site-header a {
+  color: #999;
+  transition: ease-in-out color .15s;
+}
+.site-header a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/*
+ * Dummy devices (replace them with your own or something else entirely!)
+ */
+
+.product-device {
+  position: absolute;
+  right: 10%;
+  bottom: -30%;
+  width: 300px;
+  height: 540px;
+  background-color: #333;
+  border-radius: 21px;
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+.product-device::before {
+  position: absolute;
+  top: 10%;
+  right: 10px;
+  bottom: 10%;
+  left: 10px;
+  content: "";
+  background-color: rgba(255, 255, 255, .1);
+  border-radius: 5px;
+}
+
+.product-device-2 {
+  top: -25%;
+  right: auto;
+  bottom: 0;
+  left: 5%;
+  background-color: #e5e5e5;
+}
+
+
+/*
+ * Extra utilities
+ */
+
+.flex-equal > * {
+  -ms-flex: 1;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  .flex-md-equal > * {
+    -ms-flex: 1;
+    flex: 1;
+  }
+}
+
+.overflow-hidden { overflow: hidden; }
+
+@font-face {
+     font-family: brandon-Light;
+     src: url("../fonts/Brandon Grotesque/Brandon_light.otf");
+	}
+		@font-face{
+			font-family: eb-garamond;
+			src: url("../fonts/EBGaramound/EBGaramond12-Regular.ttf");
+		}
+  	
+		
+		.sub
+		{
+			letter-spacing: 0.18em;
+			margin: 0;
+    		padding: 0;
+    		border: 0;
+    		outline: 0;
+    		vertical-align: baseline;
+    		background: 0 0;
+			text-align: right;
+			line-height: normal;
+			font: normal normal bold 36px/1.4em sans-serif;
+    		color: #FFFFFF;
+		}
+		
+		.sub2
+		{
+			letter-spacing: 0.18em;
+			margin: 0;
+    		padding: 0;
+    		border: 0;
+    		outline: 0;
+    		vertical-align: baseline;
+    		background: 0 0;
+			text-align: right;
+			line-height: normal;
+			font: normal normal bold 36px/1.4em sans-serif;
+    		color: #000000;
+		}
+		
+		.navbar-dark .navbar-nav .active>.nav-link, .navbar-dark .navbar-nav .nav-link.active, .navbar-dark .navbar-nav .nav-link.show, .navbar-dark .navbar-nav .show>.nav-link 
+		{
+			color: #fff;
+		}
+		
+		.navbar-dark .navbar-nav .nav-link 
+		{
+    		color: #009ad3;
+			display: inline-block;
+		    transition: color 0.4s ease 0s;
+    		padding: 0;
+    		border: 0;
+    		outline: 0;
+    		vertical-align: baseline;
+    		background: 0 0;
+			margin: 20PX;
+		}
+		
+		.text1
+		{
+			font-family: brandon-Light;
+			font-size: 22px;
+			color: #FFFFFF;
+			text-align: justify;
+			font: normal normal normal 15px/1.4em;
+		}
+		
+		.text2
+		{
+			font-family: brandon-Light;
+			font-size: 22px;
+			color: #000000;
+			text-align: justify;
+			font: normal normal normal 15px/1.4em;
+			
+		}
+		
+		.text3
+		{
+			font-family: brandon-Light;
+			font-size: 22px;
+			color: #EAD38D;
+			text-align: justify;
+			font: normal normal normal 15px/1.4em;
+		}
+		
+		.text4
+		{
+			
+			color: #632503;
+			letter-spacing: 0.05em;
+			font-size: 28px;
+			font-family: eb-garamond, serif;
+			text-align: center;
+			font-weight: bold;
+		}
+		.text5{
+			font-family: brandon-Light;
+			font-size: 22px;
+			color: #632503;
+			font-weight: bold;
+			
+		}
+		.text6{
+			font-family: brandon-Light;
+			font-size: 22px;
+			color: #93701F;		
+			text-align: justify;
+			font-weight:100;
+		}
+		
+		
+		.jumbotron {
+
+			border-radius: 0rem;
+		    margin-bottom: 0rem;}
+		
+		.navbar {
+			padding: 0;}
+		
+		.shadow-sm {
+    box-shadow: 0 0rem 0rem rgba(0,0,0,.0);
+}
+		
+		.card {
+    border: 0;
+			border-radius: 0;}
+		.d-none {
+    display: block;
+}
+		.card {
+    
+			flex-direction:row;}
+		.imgRedonda{
+			object-fit: cover;
+			object-position: center;
+			width: 200px; height: 200px; border-radius: 50%; 
+			left: 50%;
+			
+			margin-left: -100px;
+			position: relative;
+		}
+		
+		.imgRedonda2{
+		
+			object-position: center;
+			max-width: 70%; max-height: 70%; 
+			
+		}
+		
+		.imgEspetaculo{
+
+	
+			max-width: 70%;
+			max-height: 70%;
+			object-fit: cover;
+			    margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			vertical-align: baseline;
+			background: 0 0;
+			border-radius: 50px 50px 50px 50px;
+			
+    position: relative;
+	
+		}
+
+		.imgPatrocinio{
+
+			max-width: 20%;
+			max-height: 20%;
+			object-fit: cover;
+			margin: 0;
+			padding: 0;
+			border: 0;
+			outline: 0;
+			vertical-align: baseline;
+			background: 0 0;
+			position: relative;
+	
+		}
+		
+		.btn:focus, .btn:active, button:focus, button:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#image-gallery .modal-footer{
+  display: block;
+}
+
+.thumb{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.bg-dark {
+    background-color: #000000!important;
+}
+
+
+.lalala{
+	font:100
+}

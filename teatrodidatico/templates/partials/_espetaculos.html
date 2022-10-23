@@ -1,0 +1,52 @@
+<!--ESPETÁCULOS-->
+<div class="jumbotron" style="background-color: rgba(243, 224, 179, 1);" id="espetaculos">
+  <div class="container">
+    <p class="sub2">ESPETÁCULOS</p><br /><br />
+    {% if espetaculos %}
+      {% for espetaculo in espetaculos %}
+        <p class='text4' style='font-style:italic;' id='aparecer1'>{{ espetaculo.nome|upper }}</p>
+        <div id="{{ espetaculo.id }}">
+          <p style='text-align:center;'><img class='imgEspetaculo' src="{{ espetaculo.foto_principal.url }}" /><br /><br /><br /></p>
+          <p class='text5'>SINOPSE</p><br /><br />
+          <p class='text6' style='text-align:justify;'>{{ espetaculo.sinopse }}</p>
+          <br /><p class='text5'>FICHA TÉCNICA</p><BR />
+          <p class='text5'>Atores manipuladores: <b class='text6'> {{ espetaculo.atores }} </b> </p>
+          <p class='text5'>Direção: <b class='text6'>{{ espetaculo.direcao }}</b></p>
+          <p class='text5'>Trilha sonora original: <b class='text6'>{{ espetaculo.trilha_sonora }}</b></p>
+          <p class='text5'>Cenografia e bonecos: <b class='text6'>{{ espetaculo.confeccao }}</b></p>
+          <p class='text5'>Duração:<b class='text6'>{{ espetaculo.duracao }}</b></p>
+          <p class='text5'>Classificação: <b class='text6'>{{ espetaculo.get_classificacao_display }}</b></p>
+
+          {% if fotos_espetaculos %}
+            <p class='text5' style='text-align: center'>FOTOGRAFIAS</p><br />
+            <div class='tz-gallery'>
+              <div class='row'>
+                {% for foto in fotos_espetaculos %}
+                {% if foto.espetaculo_id == espetaculo.id %}
+                <div class='col-sm-6 col-md-4'>
+                  <a class='lightbox' href='{{ foto.foto.url }}'>
+                    <img src='{{ foto.foto.url }}' alt= 'Espetáulo {{ foto.espetaculo.nome }}'>
+                  </a>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if espetaculo.video %}
+            <br /><p class='text5' style='text-align: center'>VÍDEO DO ESPETÁCULO</p>
+            <div class="embed-responsive embed-responsive-16by9" style="text-align:center; border-radius: 20px 20px 20px 20px;">
+              <iframe width="560" height="315" src="{{ espetaculo.video }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div><br />
+          {% endif %}
+
+        </div>
+        <br />
+        <hr style='border-top: 1px solid #A96500; width: 100%; position: relative'/><br />
+      {% endfor %}
+    {% else %}#}
+      Nenhum Resultado
+    {% endif %}
+  </div>
+</div>

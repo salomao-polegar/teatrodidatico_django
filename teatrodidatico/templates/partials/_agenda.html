@@ -1,0 +1,110 @@
+<!--AGENDA-->
+<div class="jumbotron" style="background-color: #000;" id="agenda">
+  <div class="container">
+    <p class="sub">AGENDA</p><br /><br />
+    {% if agenda_futura %}
+    {% for agenda in agenda_futura %}
+      <div class='row'>
+        <div class='col-12 col-md'>
+          <div class='containerdata'>
+            <div id='date'>
+              <span> {{ agenda.data_inicial|date:"j" }} </span> {{ agenda.data_inicial|date:"F" }} <span></span> {{ agenda.data_inicial|date:"Y" }}
+            </div>
+          </div>
+          <br /><br /><br /><br />
+        </div>
+        <div class='col-12 col-md-8'>
+          <p class='text5' style='text-align: center;color: #EAD38D;'><br>
+            {{ agenda.titulo|upper }}
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Onde: </b><b class='text6' style='color: #fff;'>
+            {{ agenda.local }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Quando: </b><b class='text6' style='color: #fff;'>
+            {{ agenda.data }} </b>
+            </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Valor: </b> <b class='text6' style='color: #fff;'>
+            {{ agenda.valor }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Duração:</b> <b class='text6' style='color: #fff;'>
+            {{ agenda.duracao }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Classificação:</b> <b class='text6' style='color: #fff;'>
+            {{ agenda.idade }} </b>
+          </p>
+          {% if agenda.inscricao %}
+            <p style='text-align: justify;'><b class='text6'>Se inscreva </b>
+              <a class='text6' href='{{ agenda.inscricao }}' target='_blank'>Clicando Aqui </a>
+            </p>
+          {% else %}
+            <p style='text-align: justify;'><b class='text6' style='color: #fff;'>Sem necessidade de inscrição</b></p>
+          {% endif %}
+          <p style='text-align: justify;'><b class='text6' style='color: #fff;'>Saiba mais sobre esta atividade:</b>
+            <a class='text6' style='color: #fff;' href='#{{ agenda.espetaculo_id }}'> Clicando Aqui </a>
+          </p>
+        </div>
+      </div>
+      <hr style='border-top: 1px solid #A96500; width: 100%; position: relative' />
+    {% endfor %}
+    {% else %}
+      <p class='text1'>Por enquanto, não temos nenhum evento marcado.
+        <a href='https://www.facebook.com/teatrodidatico' class='text' style='color: inherit;' target='_blank'>
+          Acompanhe nossa página no Facebook e fique por dentro de nossa futura agenda. Clique aqui.
+        </a>
+      </p>
+    {% endif %}
+
+
+    {% if agenda_passada %}
+    <p class='text3' style='text-align: right; cursor: pointer;' id='botaoAnteriores'>ANTERIORES (Clique para mostrar)</p><br /><br />
+    <div id='div1'>
+    {% for agenda in agenda_passada %}
+      <div class='row'>
+        <div class='col-12 col-md'>
+          <div class='containerdata'>
+            <div id='date'>
+              <span> {{ agenda.data_inicial|date:"j" }} </span> {{ agenda.data_inicial|date:"F" }} <span></span> {{ agenda.data_inicial|date:"Y" }}
+            </div>
+          </div>
+          <br /><br /><br /><br />
+        </div>
+        <div class='col-12 col-md-8'>
+          <p class='text5' style='text-align: center;color: #EAD38D;'><br>
+            {{ agenda.titulo|upper }}
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Onde: </b><b class='text6' style='color: #fff;'>
+            {{ agenda.local }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Quando: </b><b class='text6' style='color: #fff;'>
+            {{ agenda.data }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Valor: </b> <b class='text6' style='color: #fff;'>
+            {{ agenda.valor }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Duração:</b> <b class='text6' style='color: #fff;'>
+            {{ agenda.duracao }} </b>
+          </p>
+          <p style='text-align: justify;'><b class='text6' style='color: #EAD38D;'>Classificação:</b> <b class='text6' style='color: #fff;'>
+            {{ agenda.idade }} </b>
+          </p>
+          {% if agenda.inscricao %}
+            <p style='text-align: justify;'><b class='text6'>Se inscreva </b>
+              <a class='text6' href='{{ agenda.inscricao }}' target='_blank'>Clicando Aqui </a>
+            </p>
+          {% else %}
+            <p style='text-align: justify;'><b class='text6' style='color: #fff;'>
+              Sem necessidade de inscrição</b>
+            </p>
+          {% endif %}
+          <p style='text-align: justify;'><b class='text6' style='color: #fff;'>
+            Saiba mais sobre esta atividade:</b>
+            <a class='text6' style='color: #fff;' href='#{{ agenda.espetaculo_id }}'> Clicando Aqui </a>
+          </p>
+        </div>
+      </div>
+      <hr style='border-top: 1px solid #A96500; width: 100%; position: relative' />
+    {% endfor %}
+    </div>
+  {% endif %}
+  </div>
+</div>

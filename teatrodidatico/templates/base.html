@@ -1,0 +1,151 @@
+{% load static %}
+<!-- HTML -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Site do grupo teatral Teatro Didático da Unesp">
+  <meta name="author" content="Salomão Pôlegar">
+
+  <title>Teatro Didático da Unesp</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link rel="stylesheet" href="{% static 'css/data.css' %}">
+  <link rel="stylesheet" href="{% static 'css/baguetteBox.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/gallery-grid.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Sans:400,700">
+  
+
+  <link rel="icon" href="{% static 'img/didatico.ico' %}">
+
+  <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+{% block body %}
+{% endblock %}
+
+<!--FOOTER-->
+
+<footer class="container py-5" id="contato">
+  <div>
+    <p class="sub2">CONTATO</p><br /><br />
+    <div class="row">
+      <div class="col-12 col-md-6" style="text-align: right;"></div>
+      <div class="col-12 col-md-6" style="text-align: right;">
+        <p class="text">unespteatrodidatico@gmail.com&nbsp;&nbsp;&nbsp;
+          <img style="max-height: 20px; max-width: 20px;" src="{% static 'img/email.png' %}" /></p>
+        <p class="text"><a href="https://www.instagram.com/teatrodidatico/" class="text" style="color: inherit;" target="_blank">@teatrodidatico&nbsp;&nbsp;&nbsp;
+          <img style="max-height: 20px; max-width: 20px;" src="{% static 'img/instagram.png' %}" /></a></p>
+        <p class="text"><a href="https://www.facebook.com/teatrodidatico" class="text" style="color: inherit;" target="_blank">@teatrodidatico&nbsp;&nbsp;&nbsp;
+          <img style="max-height: 20px; max-width: 20px;" src="{% static 'img/face.jpeg' %}" /></a></p>
+        <iframe
+          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fteatrodidatico&tabs&width=300&height=213&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+          width="300" height="213" style="max-height: 100%; max-width:
+          100%;" style="border:none;overflow:hidden" scrolling="no"
+          frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+        <p class="text5" style="text-align: right;">Apoio:</p><a href="https://ia.unesp.br/" target="_blank">
+        <img style="width: 197px; height: 136px;" src="{% static 'img/iaunesp.jpg' %}"></a>
+      </div>
+    </div>
+    <hr style="border-top: 1px solid #A96500; width: 100%; position: relative" />
+    <br />
+    <div class="container">
+      <p class="text" style="position: absolute;">Site desenvolvido por <a
+          href="https://www.linkedin.com/in/salomao-polegar/" class="text"
+          style="color: inherit;" target="_blank">Salomão Pôlegar</a>.
+        <a href="{% url 'admin:index' %}" class="text" style="color: inherit;"
+          target="_blank">Acesso Restrito</a>.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- SCRIPTS js -->
+
+<script src="{% static 'js/jquery-3.3.1.slim.min.js' %}" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+<script src="{% static 'js/popper.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/holder.min.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/baguetteBox.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+<script>
+  baguetteBox.run('.tz-gallery');
+  Holder.addTheme('thumb', {
+    bg: '#55595c',
+    fg: '#eceeef',
+    text: 'Thumbnail'
+  });
+
+ 
+  function rolar(link, cod) {
+    if (link=="#home")
+    {
+      $('html, body').animate({scrollTop: 0}, 500, 'linear');
+    }
+    else
+    {
+      var b = $(link);
+      var offsetTop = b.offset().top;
+      var windowWidth = window.innerWidth;
+
+      if (windowWidth < 992)
+      {
+        $('html, body').animate({scrollTop: (offsetTop - 500)}, 500);
+      }
+      else
+      {
+        $('html, body').animate({scrollTop: (offsetTop - 40)}, 500);
+      }
+    }
+    if (cod==1)
+    {
+      document.getElementById("navbar1").className = 'dropdown-menu dropdown-menu-right animate slideIn';
+    }
+  }
+
+  $(document).ready(function(){
+    $("#div1").fadeToggle();
+  })
+
+  $(document).ready(function(){
+    $("#botaoAnteriores").click(function(){
+      $("#div1").fadeToggle();
+    });
+  });
+
+  function esconder (){
+    mostra = document.getElementById("linhas").value;
+    exc = document.getElementById("exc").value;
+
+    mostra ++;
+    mostra ++;
+
+    tot=parseInt(mostra)+parseInt(exc)-1;
+
+    for (var num=mostra; num<=tot; num++){
+
+      if(document.getElementsByTagName("tr").item(num).style.display=="none"){
+        document.getElementsByTagName("tr").item(num).removeAttribute("style");
+        document.getElementById("BtnEsconder").value = "Ocultar inativos";
+      }
+      else{
+        var i = document.getElementsByTagName("tr").item(num)
+        i.style.display="none";
+        document.getElementById("BtnEsconder").value = "Mostrar inativos";
+        i.style.background="rgb(121,85,72)";
+      }
+    }
+  }
+</script>
+</body>
+
+</html>

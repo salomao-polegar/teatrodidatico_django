@@ -1,0 +1,927 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<!-- NAVBAR -->
+
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid ">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
+        <ul class="navbar-nav">          
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#integrantes')">Integrantes</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#curriculo')">Curriculo</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#oficinas')">Oficinas</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#espetaculos')">Espetaculos</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#agenda')">Agenda</button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link navbar-toggler" type="button"
+              data-toggle="collapse" data-target="#navbarsExample08"
+              aria-controls="navbarsExample08" aria-expanded="false"
+              aria-label="Toggle navigation"
+              onclick="rolar('#textos')">Textos</button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link navbar-toggler" href="sair">Sair</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+<main role="main">
+  <div class="jumbotron" style="background-color: #fff;" id="integrantes">
+    <div class="container">
+      <p class="sub2">INTEGRANTES</p><br /><br />
+      <div class="row">
+        <div class="col-12 col-md">
+          <form name="integrantes" id="formInt" method="post" action="add" target="_blank" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="IntId">ID</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="IntId"
+                  name="IntId" placeholder="ID" size="45" value="" />
+                <input type="hidden" id="tipo" name="tipo"
+                  value="integrantes" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="nome">Nome</label>
+                <input type="text" class="form-control" id="IntNome"
+                  name="nome" placeholder="Nome" size="45" value="" />
+              </div>
+              <div class="form-group col-md-4" style="cursor: pointer;">
+                <label for="foto" style="cursor: pointer;">Foto</label>
+                <label for="foto" style="cursor: pointer;"><img id="fotoIntegrantes" class="img-thumbnail" src="{{ url_for('static', filename='/img/upload.png') }}" /></label>
+                <button type="button" class="btn btn-primary" style="width: 100%;" onclick="document.getElementById('foto').click()">Escolha...</button>
+                <input type="file" class="form-control" id="foto"
+                  name="foto" placeholder="Foto" size="45" style="display:none;" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="descricao">Descrição</label>
+              <textarea type="text" rows="6" cols="45" class="form-control"
+                id="IntDescricao" name="descricao"
+                placeholder="Descrição" value=""></textarea>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Ativo</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if integrantes %}
+                {% for row in integrantes %}
+                  {% if row["ativo"]==1 %}
+                    {% set txt = "Sim" %}
+                    {% set clr = "style=background-color:rgb(169,245,169);cursor:pointer;" %}
+                  {% else %}
+                    {% set txt = "Não" %}
+                    {% set clr = "style=background-color:rgb(245,169,188);cursor:pointer;" %}
+                  {% endif %}
+                  <tr {{ clr }} onclick="editarInt(
+                    '{{ row['id'] }}',
+                    '{{ row['nome'] }}',
+                    '{{ row['descricao'].replace("'" ,"") }}',
+                    '{{ row['foto'] }}')">
+                    <th scope='row'> {{ row["id"] }}</th>
+                    <td>{{ row["nome"] }}</td>
+                    <td>{{ txt }}</td>
+                    <td>
+                      <p>Editar</p>
+                    </td>
+                    <td>
+                      {% if row["ativo"]==1 %}
+                        <a target='_blank' style='text-decoration:none; color: inherit;' 
+                        href='excluir?id={{ row["id"] }}&tipo=int&acao=excluir'>Excluir</a>
+                      {% else %}
+                        <a target='_blank' style='text-decoration:none; color:inherit;'
+                        href='excluir?id={{ row["id"] }}&tipo=int&acao=incluir' 
+                          >Incluir</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+              {% else %}
+                Nenhum Resultado
+              {% endif %}
+            </tbody>
+          </table>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron" style="background-color: #fff;" id="curriculo">
+    <div class="container">
+      <p class="sub2">CURRÍCULO</p><br /><br />
+      <div class="row">
+        <div class="col-12 col-md">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Data</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Ativo</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if curriculo %}
+                {% set i=0 %}
+                {% for row in curriculo %}
+                  {% set i = i+1 %}
+                  {% if row["ativo"]==1 %}
+                    {% set txt = "Sim" %}
+                    {% set clr = "style=background-color:rgb(169,245,169)" %}
+                  {% else %}
+                    {% set txt = "Não" %}
+                    {% set clr = "style=background-color:rgb(245,169,188)" %}
+                  {% endif %}
+                  <tr {{ clr }}>
+                    <th scope='row'>{{ i }}</th>
+                    <td>{{ row["data"] }}</td>
+                    <td>{{ row["descricao"] }}</td>
+                    <td>{{ txt }}</td>
+                    <td>
+                      <p style='cursor: pointer;' onclick="editarCur(
+                        '{{ row['id'] }}',
+                        '{{ row['data'] }}',
+                        '{{ row['descricao'].replace("'" ,"") }}')">Editar</p>
+                    </td>
+                    <td>
+                      {% if row["ativo"]==1 %}
+                        <a target='_blank' style='text-decoration:none; color:inherit;'
+                        href='excluir?id={{ row["id"] }}&tipo=cur&acao=excluir'
+                          >Excluir</a>
+                      {% else %}
+                        <a target='_blank' style='text-decoration:none; color:inherit;'
+                        href='excluir?id={{ row["id"] }}&tipo=cur&acao=incluir'
+                          >Incluir</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% else %}
+                  Nenhum Resultado
+                {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+
+          <form name="curriculo" method="post" action="add" target="_blank" enctype="multipart/form-data">
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label for="CurId">ID</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="CurId"
+                  name="CurId" placeholder="Id" size="45" />
+                <input type="hidden" id="tipo" name="tipo" value="curriculo" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="CurData">Data</label>
+                <input type="date" class="form-control" id="CurData"
+                  name="CurData" placeholder="Data" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="CurDescricao">Descrição</label>
+                <input type="text" class="form-control" id="CurDescricao"
+                  name="CurDescricao" placeholder="Descrição"
+                  size="45" />
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+        </div>
+      </div>
+
+      <div class="jumbotron" style="background-color: #fff;" id="curriculo">
+        <div class="container">
+          <p class="sub2">Prêmios</p><br /><br />
+          <div class="row">
+            <div class="col-12 col-md">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Evento</th>
+                    <th scope="col">Prêmio</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Ativo</th>
+                    <th scope="col">Ação</th>
+                    <th scope="col">Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% if premios %}
+                    {% set i=0 %}
+                    {% for row in premios %}
+                      {% set i = i + 1 %}
+                      {% if row["ativo"]==1 %}
+                        {% set txt = "Sim" %}
+                        {% set clr = "style=background-color:rgb(169,245,169)" %}
+                      {% else %}
+                        {% set txt = "Não" %}
+                        {% set clr = "style=background-color:rgb(245,169,188)" %}
+                      {% endif %}
+                      <tr {{ clr }}>
+                        <th scope='row'>{{ i }}</th>
+                        <td>{{ row["evento"] }}</td>
+                        <td>{{ row["premio"] }}</td>
+                        <td>{{ row["data"] }}</td>
+                        <td>{{ txt }}</td>
+                        <td>
+                          <p style='cursor: pointer;' onclick="editarPre(
+                            '{{ row['id'] }}',
+                            '{{ row['evento'] }}',
+                            '{{ row['premio'] }}',
+                            '{{ row['data'] }}')">Editar</p>
+                        </td>
+                        <td>
+                          {% if row["ativo"]==1 %}
+                            <a target='_blank' style='text-decoration:none; color:inherit;'
+                            href='excluir?id={{ row["id"] }}&tipo=pre&acao=excluir'
+                              >Excluir</a>
+                          {% else %}
+                            <a target='_blank' style='text-decoration:none; color:inherit;'
+                            href='excluir?id={{ row["id"] }}&tipo=pre&acao=incluir' 
+                              >Incluir</a>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    {% else %}
+                    Nenhum Resultado
+                  {% endif %}
+                </tbody>
+              </table>
+
+              <form name="premio" method="post" action="add" target="_blank" enctype="multipart/form-data">
+                <div class="row">
+                  <div class="form-group col-md-3">
+                    <label for="CurId">ID</label>
+                    <input readonly="readonly" style="cursor:not-allowed;"
+                      type="text" class="form-control" id="CurId"
+                      name="PreId" placeholder="Id" size="45" />
+                    <input type="hidden" id="tipo" name="tipo" value="premio" />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="PreData">Data</label>
+                    <input type="date" class="form-control" id="PreData"
+                      name="PreData" placeholder="Data" />
+                  </div>
+                  <div class="form-group col-md-3 select1">
+                    <label for="PreEvento2">Evento</label>
+                    <select name="PreEvento2" id="PreEvento2" style="width:75px;">
+                      <option id="novo" value="novo">--</option>
+                      {% if premios2 %}
+                        {% for row in premios2 %}
+                          <option 
+                          id='{{ row["id"] }}' 
+                          value='{{ row["evento"] }}'>{{ row["evento"] }}</option>
+                        {% endfor %}
+                      {% else %}
+                        Nenhum Resultado
+                      {% endif %}
+                    </select>
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="PrePremio">Prêmio</label>
+                    <input type="text" class="form-control" id="PrePremio"
+                      name="PrePremio" placeholder="Prêmio"
+                      size="45" />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="PreEvento">Evento</label>
+                    <input type="text" class="form-control" id="PreEvento"
+                      name="PreEvento" placeholder="Evento"
+                      size="45" />
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="PreEspetaculo">Espetáculo</label>
+                    <input type="text" class="form-control"
+                      id="PreEspetaculo" name="PreEspetaculo"
+                      placeholder="Espetáculo" size="45" />
+                  </div>
+                </div>
+                <input type="submit" name="Submit" value="Enviar"
+                  class="btn" />
+                <input type="reset" name="Clear" value="Limpar" class="btn"/>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="jumbotron" style="background-color: #fff;" id="oficinas">
+    <div class="container">
+      <p class="sub2">OFICINAS</p><br /><br />
+      <div class="row">
+        <div class="col-12 col-md">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Descr</th>
+                <th scope="col">Público</th>
+                <th scope="col">Carga</th>
+                <th scope="col">Atv</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if oficinas %}
+                {% set i=0 %}
+                {% for row in oficinas %}
+                  {% set i = i + 1 %}
+                  {% if row["ativo"]==1 %}
+                    {% set txt = "Sim" %}
+                    {% set clr = "style=background-color:rgb(169,245,169)" %}
+                  {% else %}
+                    {% set txt = "Não" %}
+                    {% set clr = "style=background-color:rgb(245,169,188)" %}
+                  {% endif %}
+                <tr {{ clr }}>
+                  <th scope='row'>{{ i }}</th>
+                  <td>{{ row["nome"] }}</td>
+                  <td>{{ row["sinopse"] }}</td>
+                  <td>{{ row["classificacao"] }}</td>
+                  <td>{{ row["duracao"] }}</td>
+                  <td>{{ txt }}</td>
+                  <td>
+                    <p style='cursor: pointer;' onclick="editarOfi(
+                      '{{ row['id'] }}',
+                      '{{ row['nome'] }}',
+                      '{{ row['sinopse'].replace("'" ,"") }}', 
+                      '{{ row['classificacao'] }}',
+                      '{{ row[' duracao'] }}')">Editar</p>
+                  </td>
+                  <td>
+                    {% if row["ativo"]==1 %}
+                      <a target='_blank' style='text-decoration:none; color: inherit;'
+                      href='excluir?id={{ row["id"] }}&tipo=ati&acao=excluir' 
+                        >Excluir</a>
+                    {% else %}
+                      <a target='_blank' style='text-decoration:none; color: inherit;'
+                      href='excluir?id={{ row["id"] }}&tipo=ati&acao=incluir' 
+                        >Incluir</a>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+              {% else %}
+                Nenhum Resultado
+              {% endif %}
+            </tbody>
+          </table>
+          <form name="oficinas" method="post" action="add" target="_blank" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="OfiId">ID</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="OfiId"
+                  name="OfiId" placeholder="Id" size="45" />
+                <input type="hidden" id="tipo" name="tipo" value="oficinas"/>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="OfiNome">Nome da oficina: </label>
+                <input type="text" class="form-control" id="OfiNome"
+                  name="OfiNome" placeholder="Nome da Oficina" size="45" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="OfiDesc">Descrição:
+                </label>
+                <textarea type="text" rows="6" cols="45"
+                  class="form-control" id="OfiDesc" name="OfiDesc"
+                  placeholder="Descrição" size="45"></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="fotoOficina">Foto:
+              </label>
+              <input type="file" class="form-control" id="fotoOficina"
+                name="foto" placeholder="Foto" size="45" />
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="OfiPublico">Público
+                  Alvo: </label>
+                <input type="text" class="form-control" id="OfiPublico"
+                  name="OfiPublico" placeholder="Público" />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="OfiCarga">Carga:
+                </label>
+                <input type="text" class="form-control" id="OfiCarga"
+                  name="OfiCarga" placeholder="Carga Horária"
+                  size="45" />
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn">
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron" style="background-color: #fff;" id="espetaculos">
+    <div class="container">
+      <p class="sub2">ESPETÁCULOS</p><br /><br />
+      <div class="row">
+        <div class="col-12 col-md">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Sinopse</th>
+                <th scope="col">Atores</th>
+                <th scope="col">Direc</th>
+                <th scope="col">Trilha</th>
+                <th scope="col">Confec</th>
+                <th scope="col">Duracao</th>
+                <th scope="col">Classif</th>
+                <th scope="col">Atv</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if espetaculos %}
+                  {% set i=0 %}
+                  {% for row in espetaculos %}
+                    {% set i=i+1 %}
+                    {% if row["ativo"]==1 %}
+                      {% set txt = "Sim" %}
+                      {% set clr = "style=background-color:rgb(169,245,169)" %}
+                    {% else %}
+                      {% set txt = "Não" %}
+                      {% set clr = "style=background-color:rgb(245,169,188)" %}
+                    {% endif %}
+                    <tr {{ clr }}>
+                      <th scope='row'>{{ i }}</th>
+                      <td>{{ row["nome"] }}</td>
+                      <td>{{ row["sinopse"] }}</td>
+                      <td>{{ row["atores"] }}</td>
+                      <td>{{ row["direcao"] }}</td>
+                      <td>{{ row["trilha"] }}</td>
+                      <td>{{ row["confeccao"] }}</td>
+                      <td>{{ row["duracao"] }}</td>
+                      <td>{{ row["classificacao"] }}</td>
+                      <td>{{ txt }}</td>
+                      <td>
+                        <p style='cursor:pointer;'onclick="editarEsp(
+                          '{{ row['id'] }}',
+                          '{{ row['nome'] }}',
+                          '{{ row['sinopse'].replace("'" ,"") }}',
+                          '{{ row['atores'] }}',
+                          '{{ row['direcao'] }}',
+                          '{{ row['trilha'] }}',
+                          '{{ row['confeccao'] }}',
+                          '{{ row['duracao'] }}',
+                          '{{ row['classificacao'] }}',
+                          '{{ row['agradecimentos'] }}')">Editar</p>
+                      </td>
+                      <td>
+                        <p style='cursor: pointer;' onclick="addFotoEsp('{{ row['id'] }}')">Add Foto</p>
+                      </td>
+                      <td>
+                        {% if row["ativo"]==1 %}
+                          <a target='_blank' style='text-decoration:none;color:inherit;'
+                          href='excluir?id={{ row["id"] }}&tipo=ati&acao=excluir'
+                          onclick='setTimeout(function(){ window.location.reload(1) });'>Excluir</a>
+                        {% else %}
+                          <a target='_blank' style='text-decoration:none;color:inherit;'
+                          href='excluir?id={{ row["id"] }}&tipo=ati&acao=incluir' 
+                          onclick='setTimeout(function(){ window.location.reload(1) });'>Incluir</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  {% else %}
+                    Nenhum Resultado
+                {% endif %}
+            </tbody>
+          </table>
+          <form name="contato" method="post" action="add" target="_blank" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="EspId">ID</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="EspId"
+                  name="EspId" placeholder="Id" size="45" />
+                <input type="hidden" id="tipo" name="tipo" value="espetaculos" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="EspNome">Nome do espetáculo</label>
+                <input type="text" class="form-control" id="EspNome"
+                  name="EspNome" placeholder="Nome do Espetáculo" size="45">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="EspFoto">Foto</label>
+                <input type="file" class="form-control" id="EspFoto" name="foto" placeholder="Foto" size="45" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="EspSinopse">Sinopse</label>
+              <textarea type="text" rows="6" cols="45" class="form-control"
+                id="EspSinopse" name="EspSinopse" placeholder="Sinopse"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="EspAtores">Atores-manipuladores:
+                </label>
+                <input type="text" class="form-control" id="EspAtores"
+                  name="EspAtores" placeholder="Atores" size="45" />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="EspDirecao">Direção:
+                </label>
+                <input type="text" class="form-control" id="EspDirecao"
+                  name="EspDirecao" placeholder="Direção" size="45" />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="EspTrilha">Trilha Sonora Original: </label>
+                <input type="text" class="form-control" id="EspTrilha"
+                  name="EspTrilha" placeholder="Trilha Sonora" size="45" />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="EspConfeccao">Confecção de bonecos e adereços: </label>
+                <input type="text" class="form-control" id="EspConfeccao"
+                  name="EspConfeccao" placeholder="Confecção" size="45" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="EspDuracao">Duração: </label>
+                <input type="text" class="form-control" id="EspDuracao"
+                  name="EspDuracao" placeholder="Duração" size="45" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="EspClassificacao">Classificação: </label>
+                <input type="text" class="form-control"
+                  id="EspClassificacao" name="EspClassificacao"
+                  placeholder="Classificação" size="45" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="EspAgra">Agradecimentos: </label>
+                <input type="text" class="form-control" id="EspAgra"
+                  name="EspAgra" placeholder="Agradecimentos" size="45" />
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+
+          <form name="foto" method="post" action="fotos" target="_blank"
+            enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="IdFoto2">Id</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="IdFoto2"
+                  name="IdFoto2" placeholder="Id" size="45" />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="EspFoto2">Foto</label>
+                <input type="file" multiple="multiple" class="form-control"
+                  id="EspFoto2" name="EspFoto2[]" placeholder="Foto" size="45" />
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="jumbotron" style="background-color:
+    #fff;" id="agenda">
+    <div class="container">
+      <p class="sub2">AGENDA</p><br /><br />
+      <div class="row">
+        <div class="col-12
+          col-md">
+          <table class="table
+            table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Local</th>
+                <th scope="col">DtIni</th>
+                <th scope="col">DtFin</th>
+                <th scope="col">Datas</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Duracao</th>
+                <th scope="col">Idade</th>
+                <th scope="col">Link</th>
+                <th scope="col">Ativo</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if agenda %}
+                {% set i=0 %}
+                {% for row in agenda %}
+                  {% set i=i+1 %}
+                  {% if row["ativo"]==1 %}
+                    {% set txt = "Sim" %}
+                  {% else %}
+                    {% set txt = "Não" %}
+                  {% endif %}
+                  <tr>
+                    <th scope='row'>{{ i }}</th>
+                    <td>{{ row["titulo"] }}</td>
+                    <td>{{ row["local"] }}</td>
+                    <td>{{ row["dataInicial"] }}</td>
+                    <td>{{ row["dataFinal"] }}</td>
+                    <td>{{ row["data"] }}</td>
+                    <td>{{ row["valor"] }}</td>
+                    <td>{{ row["duracao"] }}</td>
+                    <td>{{ row["idade"] }}</td>
+                    <td>
+                      {% if atividades %}
+                        {% for row2 in atividades %}
+                          {% if row2["link"] == row["link"] %}
+                            {% set link = row2['nome'] %}
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                      {{ link }}</td>
+                    <td>{{ txt }}</td>
+                    <td>
+                      <p style='cursor:
+                        pointer;' onclick="editarAge(
+                        '{{ row['id'] }}',
+                        '{{ row['titulo'] }}',
+                        '{{ row['local'] }}',
+                        '{{ row['dataInicial'] }}',
+                        '{{ row['dataFinal'] }}',
+                        '{{ row['data'] }}',
+                        '{{ row['valor'] }}',
+                        '{{ row['duracao'] }}',
+                        '{{ row['idade'] }}',
+                        '{{ row['inscricao'] }}',
+                        '{{ row['link'] }} ')">Editar</p>
+                    </td>
+                    <td>
+                      {% if row["ativo"]==1 %}
+                        <a target='_blank' style='text-decoration:none;color:inherit;'
+                        href='excluir?id={{ row["id"] }}&tipo=age&acao=excluir'
+                          >Excluir</a>
+                      {% else %}
+                        <a target='_blank' style='text-decoration:none; color:inherit;' href='excluir?id={{ row["id"] }}&tipo=age&acao=incluir'
+                        onclick='setTimeout(function(){ window.location.reload(1) });'>Incluir</a>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                {% else %}
+                  Nenhum Resultado
+                {% endif %}
+            </tbody>
+          </table>
+          <form name="agenda" method="post" action="add" target="_blank"
+            enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="AgeId">ID</label>
+                <input readonly="readonly" style="cursor:not-allowed;"
+                  type="text" class="form-control" id="AgeId"
+                  name="AgeId" placeholder="Id" size="45" />
+                <input type="hidden" id="tipo" name="tipo" value="agenda" />
+              </div>
+              <div class="form-group col-md-3">
+                <label for="AgeDataInicial">Data Inicial</label>
+                <input type="date" class="form-control" id="AgeDataInicial"
+                  name="AgeDataInicial"
+                  placeholder="Data" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeDataFinal">Data Final</label>
+                <input type="date" class="form-control" id="AgeDataFinal"
+                  name="AgeDataFinal" placeholder="Título" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeInscricao">Site da inscrição:</label>
+                <input type="text" class="form-control" id="AgeInscricao"
+                  name="AgeInscricao" placeholder="Site da Inscrição" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group
+                col-md-6">
+                <label for="AgeData">Datas</label>
+                <input type="text" class="form-control" id="AgeData"
+                  name="AgeData" placeholder="Data" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeTitulo">Título</label>
+                <input type="text" class="form-control" id="AgeTitulo"
+                  name="AgeTitulo" placeholder="Título" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeLocal">Local</label>
+                <input type="text" class="form-control" id="AgeLocal"
+                  name="AgeLocal" placeholder="Local" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group
+                col-md-3">
+                <label for="AgeValor">Valor</label>
+                <input type="text" class="form-control" id="AgeValor"
+                  name="AgeValor" placeholder="Valor" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeDuracao">Duração</label>
+                <input type="text" class="form-control" id="AgeDuracao"
+                  name="AgeDuracao" placeholder="Duração" />
+              </div>
+              <div class="form-group
+                col-md-3">
+                <label for="AgeIdade">Idade</label>
+                <input type="text" class="form-control" id="AgeIdade"
+                  name="AgeIdade" placeholder="Idade" />
+              </div>
+              <div class="form-group
+                col-md-3
+                select1">
+                <label for="AgeLink">Link</label>
+                <select name="AgeLink" id="AgeLink">
+                  {% if atividades %}
+                    {% for row in atividades %}
+                      <option id='{{ row["link"] }}' value='{{ row["link"]}}'>
+                        {{ row["nome"] }}</option>
+                    {% endfor %}
+                  {% else %}
+                    Nenhum Resultado
+                  {% endif %}
+                </select>
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="jumbotron" style="background-color:
+    #fff;" id="textos">
+    <div class="container">
+      <p class="sub2">TEXTOS</p><br /><br />
+      <div class="row">
+        <div class="col-12
+          col-md">
+          <table class="table
+            table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Título</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Ativo</th>
+                <th scope="col">Ação</th>
+                <th scope="col">Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if textos %}
+                {% set i=0 %}
+                {% for row in textos %}
+                  {% set i=i+1 %}
+                {% if row["ativo"]==1 %}
+                  {% set txt = "Sim" %}
+                  {% set clr = "style=background-color:rgb(169,245,169)" %}
+                {% else %}
+                  {% set txt = "Não" %}
+                  {% set clr = "style=background-color:rgb(245,169,188)" %}
+                {% endif %}
+                <tr {{ clr }}>
+                  <th scope='row'>{{ i }}</th>
+                  <td>{{ row["nome"] }}</td>
+                  <td>{{ row["autor"] }}</td>
+                  <td>{{ txt }}</td>
+                  <td>
+                    <p style='cursor:pointer;' 
+                    onclick="editarTxt(
+                      '{{ row['id'] }}',
+                      '{{ row['nome'] }}',
+                      '{{ row['resumo'].replace("'" ,"") }}',
+                      '{{ row['autor'] }}')">Editar</text>
+                  </td><td>
+                    {% if row["ativo"]==1 %}
+                      <a target='_blank' style='text-decoration:none;color:inherit;' 
+                      href='excluir?id={{ row["id"] }}&tipo=txt&acao=excluir'
+                        >Excluir</a>
+                    {% else %}
+                      <a target='_blank' style='text-decoration:none;color:inherit;'
+                      href='excluir?id={{ row["id"] }}&tipo=txt&acao=incluir'
+                        ;>Incluir</a>
+                    {% endif %}
+                    </td></tr>
+                  {% endfor %}
+                {% else %}
+                  Nenhum Resultado
+              {% endif %}}
+            </tbody>
+          </table>
+          <form name="textos" method="post" action="add" target="_blank" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="TxtId">ID</label>
+                <input readonly="readonly"
+                  style="cursor:not-allowed;" type="text"
+                  class="form-control" id="TxtId"
+                  name="TxtId" placeholder="Id" size="45" />
+                <input type="hidden" id="tipo" name="tipo" value="textos" />
+              </div>
+              <div class="form-group col-md-4">
+                <label for="TxtNome">Título</label>
+                <input type="text" class="form-control" id="TxtNome" name="TxtNome" placeholder="Título" size="45">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="arquivo">Arquivo</label>
+                <input type="file" class="form-control" id="arquivo" name="arquivo" placeholder="Foto" size="45" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-group col-md-6">
+                <label for="TxtResumo">Resumo</label>
+                <textarea type="text" rows="6" cols="45"
+                  class="form-control" id="TxtResumo"
+                  name="TxtResumo" placeholder="Resumo"></textarea>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="TxtAutor">Autor</label>
+                <input type="text" class="form-control" id="TxtAutor" name="TxtAutor" placeholder="Autor" size="45" />
+              </div>
+            </div>
+            <input type="submit" name="Submit" value="Enviar" class="btn" />
+            <input type="reset" name="Clear" value="Limpar" class="btn" />
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

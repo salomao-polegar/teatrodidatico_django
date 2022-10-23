@@ -1,0 +1,24 @@
+<!--INTEGRANTES-->
+<div class="jumbotron" style="background-color: #fff;" id="integrantes">
+    <div class="container">
+        <p class="sub2">INTEGRANTES</p><br /><br />
+        {% if integrantes %}
+            {% for integrante in integrantes %}
+                <div class='row'>
+                    <div class='col-12 col-md-8'>
+                        <p class='text2' style='font-weight: bold;'>{{ integrante.nome }}</p>
+                        <p class='text2'>{{ integrante.descricao }}</p>
+                    </div>
+                    {% if integrante.foto %}
+                        <div class='col-12 col-md'>
+                            <img class='imgRedonda' src="{{ integrante.foto.url }}"><br /><br /><br /><br />
+                        </div>
+                    {% endif %}
+                </div>
+                <br /><br />
+            {% endfor %}
+        {% else %}
+            <p class='text2' style='font-weight: bold;'>Nenhum Resultado</p>
+        {% endif %}
+    </div>
+</div>

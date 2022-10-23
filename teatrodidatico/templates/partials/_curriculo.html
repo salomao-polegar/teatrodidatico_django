@@ -1,0 +1,9 @@
+ <!--CURRÍCULO-->
+ <div class="jumbotron" style="background-color: #000;" id="curriculo">
+    <div class="container">
+      <p class="sub">CURRÍCULO</p><br /><br />
+      {{ load_curriculo|safe|escape }} {# Carrega o html de currículo, que é criado em helpers.py #}
+      <br /><p class='text3' style='font-weight: bold;'>Prêmios</p>      
+      {{ load_premios|safe|escape }} {# Carrega o html de prêmios, que é criado em helpers.py #}
+    </div>
+  </div>
